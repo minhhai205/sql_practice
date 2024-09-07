@@ -63,3 +63,7 @@ LEFT JOIN Orders o
 ON c.id = o.id
 WHERE c.id NOT IN (SELECT customerId FROM orders)
 ```
+### SQL JOIN
+https://www.w3schools.com/sql/sql_join.asp
+### SQL IN Operator
+https://www.w3schools.com/sql/sql_in.asp

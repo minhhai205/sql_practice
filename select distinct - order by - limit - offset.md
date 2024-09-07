@@ -64,3 +64,8 @@ SELECT (
 
 - LIMIT 1 giới hạn kết quả chỉ trả về 1 hàng (một mức lương).
 - OFFSET 1 bỏ qua hàng đầu tiên (mức lương cao nhất) và lấy hàng tiếp theo (mức lương cao thứ hai).
+
+### SQL ORDER BY Keyword
+https://www.w3schools.com/sql/sql_orderby.asp
+### SQL SELECT DISTINCT Statement
+https://www.w3schools.com/sql/sql_distinct.asp
