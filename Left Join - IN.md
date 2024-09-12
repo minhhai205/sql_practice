@@ -67,3 +67,6 @@ WHERE c.id NOT IN (SELECT customerId FROM orders)
 https://www.w3schools.com/sql/sql_join.asp
 ### SQL IN Operator
 https://www.w3schools.com/sql/sql_in.asp
+
+### JOIN nhiều cột
+https://leetcode.com/problems/students-and-examinations/description/?envType=study-plan-v2&envId=top-sql-50
