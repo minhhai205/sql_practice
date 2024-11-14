@@ -1,5 +1,8 @@
 
 ## Solution
+```
+Báo cáo người đại diện tài khoản cho từng khách hàng?
+```
 ```sql
 USE classicmodels;
 
@@ -8,11 +11,12 @@ FROM customers c
 LEFT JOIN employees e
 ON c.salesRepEmployeeNumber = e.employeeNumber;
 ```
-```
-Báo cáo người đại diện tài khoản cho từng khách hàng?
-```
+
 .
 ## Solution
+```
+Tên khách hàng, số đơn hàng và tổng chi phí của đơn hàng đắt nhất là gì?
+```
 ```sql
 USE classicmodels;
 
@@ -29,11 +33,12 @@ FROM (
 ) dat
 GROUP BY customerNumber;
 ```
-```
-Tên khách hàng, số đơn hàng và tổng chi phí của đơn hàng đắt nhất là gì?
-```
+
 .
 ## Solution
+```
+Báo cáo tổng số tiền thanh toán cho Atelier Graphique
+```
 ```sql
 USE classicmodels;
 
@@ -43,11 +48,12 @@ FROM payments WHERE customerNumber IN (
 	FROM customers WHERE customerName='Atelier graphique'
  );
 ```
-```
-Báo cáo tổng số tiền thanh toán cho Atelier Graphique
-```
+
 .
 ## Solution
+```
+Herkku Gifts đã đặt bao nhiêu đơn hàng?  Nhân viên ở Boston là ai?
+```
 ```sql
 USE classicmodels;
 SELECT count(*) FROM orders
@@ -61,11 +67,15 @@ SELECT * FROM employees WHERE officeCode IN (
     SELECT officeCode FROM offices WHERE city='Boston'
 )
 ```
-```
-Herkku Gifts đã đặt bao nhiêu đơn hàng?  Nhân viên ở Boston là ai?
-```
+
 .
 ## Solution
+```
+Phân tích giỏ hàng: Một nhiệm vụ phân tích bán lẻ phổ biến là phân tích 
+từng giỏ hàng hoặc đơn hàng để tìm hiểu những sản phẩm nào thường được 
+mua cùng nhau. Báo cáo tên của các sản phẩm xuất hiện trong cùng một 
+đơn hàng mười lần trở lên.
+```
 ```sql
 USE classicmodels;
 
@@ -89,14 +99,14 @@ HAVING
 ORDER BY 
     timesTogether DESC;
 ```
-```
-Phân tích giỏ hàng: Một nhiệm vụ phân tích bán lẻ phổ biến là phân tích 
-từng giỏ hàng hoặc đơn hàng để tìm hiểu những sản phẩm nào thường được 
-mua cùng nhau. Báo cáo tên của các sản phẩm xuất hiện trong cùng một 
-đơn hàng mười lần trở lên.
-```
+
 .
 ## Solution
+```
+Tính toán doanh thu do mỗi khách hàng tạo ra dựa trên đơn hàng của họ. 
+Ngoài ra, hiển thị doanh thu của mỗi khách hàng dưới dạng phần trăm 
+tổng doanh thu. Sắp xếp theo tên khách hàng.
+```
 ```sql
 USE classicmodels;
 
@@ -117,13 +127,14 @@ GROUP BY
 ORDER BY 
     c.customerName;
 ```
-```
-Tính toán doanh thu do mỗi khách hàng tạo ra dựa trên đơn hàng của họ. 
-Ngoài ra, hiển thị doanh thu của mỗi khách hàng dưới dạng phần trăm 
-tổng doanh thu. Sắp xếp theo tên khách hàng.
-```
+
 .
 ## Solution
+```
+Tính toán lợi nhuận tạo ra bởi mỗi khách hàng dựa trên đơn hàng của họ. 
+Ngoài ra, hiển thị lợi nhuận của mỗi khách hàng dưới dạng phần trăm lợi
+nhuận tổng thể. Sắp xếp theo lợi nhuận giảm dần.
+```
 ```sql
 USE classicmodels;
 
@@ -151,12 +162,13 @@ GROUP BY
 ORDER BY 
     profit DESC;
 ```
-```
-Tính toán lợi nhuận tạo ra bởi mỗi khách hàng dựa trên đơn hàng của họ. 
-Ngoài ra, hiển thị lợi nhuận của mỗi khách hàng dưới dạng phần trăm lợi
-nhuận tổng thể. Sắp xếp theo lợi nhuận giảm dần.
-```
+
 .
+## Solution
+```
+Báo cáo những sản phẩm đã được bán với mức tăng giá 100% trở lên (tức là 
+giá của mỗi sản phẩm ít nhất gấp đôi giá mua)
+```
 ```sql
 USE classicmodels;
 
@@ -168,12 +180,13 @@ JOIN
 WHERE od.priceEach / p.buyPrice >= 2
 GROUP BY p.productName; 
 ```
-```
-Báo cáo những sản phẩm đã được bán với mức tăng giá 100% trở lên (tức là 
-giá của mỗi sản phẩm ít nhất gấp đôi giá mua)
-```
+
 .
 ## Solution
+```
+For orders containing more than two products, report those products
+that constitute more than 50% of the value of the order.
+```
 ```sql
 USE classicmodels;
 
@@ -195,11 +208,11 @@ JOIN
 WHERE (od.quantityOrdered * od.priceEach) / t.total >= 0.5
 ORDER BY od.orderNumber;
 ```
-```
-For orders containing more than two products, report those products
-that constitute more than 50% of the value of the order.
-```
+
 ## Solution
+```
+Tính tỷ lệ doanh số của từng sản phẩm trong năm 2003 so với năm 2004.
+```
 ```sql
 USE classicmodels;
 
@@ -225,7 +238,4 @@ GROUP BY
     p.productCode, p.productName
 ORDER BY 
     p.productCode;
-```
-```
-Tính tỷ lệ doanh số của từng sản phẩm trong năm 2003 so với năm 2004.
 ```
