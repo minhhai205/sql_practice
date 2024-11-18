@@ -239,3 +239,131 @@ GROUP BY
 ORDER BY 
     p.productCode;
 ```
+.
+## Solution
+```
+Tìm các sản phẩm được bán vào năm 2003 nhưng không phải năm 2004.
+```
+```sql
+USE classicmodels;
+
+SELECT DISTINCT p.productCode, p.productName FROM orders o
+JOIN 
+	orderdetails od ON o.orderNumber = od.orderNumber
+JOIN 
+	products p ON p.productCode = od.productCode
+WHERE YEAR(o.orderDate) = 2003 AND p.productCode NOT IN (
+	SELECT DISTINCT od.productCode FROM orders o
+	JOIN 
+		orderdetails od ON o.orderNumber = od.orderNumber
+	WHERE YEAR(o.orderDate) = 2004
+);	
+```
+.
+## Solution
+```
+Liệt kê tên khách hàng và số đơn hàng tương ứng khi đơn hàng cụ thể của 
+khách hàng đó có giá trị lớn hơn 25.000 đô la?
+```
+```sql
+USE classicmodels;
+
+SELECT 
+    c.customerName, 
+    o.orderNumber, 
+    ROUND(SUM(od.quantityOrdered * od.priceEach), 2) AS orderValue
+FROM customers c
+JOIN 
+    orders o ON c.customerNumber = o.customerNumber
+JOIN
+     orderdetails od ON o.orderNumber = od.orderNumber
+GROUP BY c.customerName, o.orderNumber
+HAVING orderValue > 25000;
+```
+.
+## Solution
+```
+Sự khác biệt về ngày giữa ngày đặt hàng gần đây nhất và cũ nhất trong tệp Đơn hàng là gì?
+```
+```sql
+USE classicmodels;
+
+SELECT  DATEDIFF(MAX(orderDate), MIN(orderDate))
+FROM orders;
+```
+.
+## Solution
+```
+Tính tổng giá trị đã đặt hàng, tổng số tiền đã thanh toán và 
+chênh lệch của chúng đối với mỗi khách hàng đối với các đơn hàng đã đặt
+trong năm 2004 và các khoản thanh toán đã nhận trong năm 2004.
+```
+```sql
+USE classicmodels;
+
+SELECT 
+    c.customerNumber,
+    c.customerName,
+    COALESCE(SUM(o.totalOrdered), 0) AS totalOrdered,
+    COALESCE(SUM(p.totalPaid), 0) AS totalPaid,
+    COALESCE(SUM(o.totalOrdered), 0) - COALESCE(SUM(p.totalPaid), 0) AS difference
+FROM customers c
+LEFT JOIN (
+    SELECT 
+        o.customerNumber,
+        SUM(od.quantityOrdered * od.priceEach) AS totalOrdered
+    FROM orders o
+    JOIN orderdetails od ON o.orderNumber = od.orderNumber
+    WHERE YEAR(o.orderDate) = 2004
+    GROUP BY o.customerNumber
+) o ON c.customerNumber = o.customerNumber
+LEFT JOIN (
+    SELECT 
+        p.customerNumber,
+        SUM(p.amount) AS totalPaid
+    FROM payments p
+    WHERE YEAR(p.paymentDate) = 2004
+    GROUP BY p.customerNumber
+) p ON c.customerNumber = p.customerNumber
+GROUP BY c.customerNumber, c.customerName
+ORDER BY c.customerName;
+```
+.
+## Solution
+```
+Tính lợi nhuận tạo ra từ mỗi dòng sản phẩm, sắp xếp theo lợi nhuận giảm dần.
+```
+```sql
+USE classicmodels;
+
+SELECT 
+    p.productLine, 
+    SUM(od.quantityOrdered * (od.priceEach - p.buyPrice)) AS profit 
+FROM products p
+JOIN orderdetails od ON p.productCode = od.productCode
+JOIN orders o ON od.orderNumber = o.orderNumber
+GROUP BY p.productLine
+ORDER BY profit DESC;
+```
+.
+## Solution
+```
+Tính toán lợi nhuận tạo ra bởi mỗi đại diện bán hàng dựa trên các đơn hàng 
+từ khách hàng mà họ phục vụ. Sắp xếp theo lợi nhuận tạo ra giảm dần.
+```
+```sql
+USE classicmodels;
+
+SELECT 
+    e.employeeNumber,
+    e.firstName,
+    e.lastName,
+    SUM(od.quantityOrdered * (od.priceEach - p.buyPrice)) AS profit
+FROM employees e
+JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
+JOIN orders o ON c.customerNumber = o.customerNumber
+JOIN orderdetails od ON o.orderNumber = od.orderNumber
+JOIN products p ON od.productCode = p.productCode
+GROUP BY e.employeeNumber
+ORDER BY profit DESC;
+```
