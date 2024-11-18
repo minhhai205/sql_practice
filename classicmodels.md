@@ -367,3 +367,14 @@ JOIN products p ON od.productCode = p.productCode
 GROUP BY e.employeeNumber
 ORDER BY profit DESC;
 ```
+.
+## Solution
+```
+Những sản phẩm nào có mã sản phẩm trong khoảng từ S700_1000 đến S700_1499?
+```
+```sql
+USE classicmodels;
+
+SELECT * FROM products
+WHERE productCode BETWEEN 'S700_1000' AND 'S700_1499';
+```
