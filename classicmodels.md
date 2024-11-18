@@ -142,13 +142,10 @@ SELECT
     c.customerName,
     SUM(od.quantityOrdered * (od.priceEach - p.buyPrice)) AS profit,
     ROUND((SUM(od.quantityOrdered * (od.priceEach - p.buyPrice)) / 
-		(
-			SELECT SUM(od.quantityOrdered * (od.priceEach - p.buyPrice)) 
-				FROM orderdetails od
-            JOIN 
-				products p ON od.productCode = p.productCode
-        )) * 100, 2) 
-        AS profitPercentage
+    ( SELECT SUM(od.quantityOrdered * (od.priceEach - p.buyPrice))  FROM orderdetails od
+        JOIN  products p ON od.productCode = p.productCode
+    )) * 100, 2) 
+    AS profitPercentage
 FROM 
     customers c
 JOIN 
@@ -191,7 +188,7 @@ that constitute more than 50% of the value of the order.
 USE classicmodels;
 
 SELECT 
-	od.orderNumber, 
+    od.orderNumber, 
     p.productName, 
     ROUND((od.quantityOrdered * od.priceEach) / t.total * 100, 2) AS orderPercentage 
 FROM
